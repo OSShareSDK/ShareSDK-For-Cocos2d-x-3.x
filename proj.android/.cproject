@@ -279,7 +279,12 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="HelloCpp.null.31159645" name="HelloCpp"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/ShareSDK-C2DX3"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/ShareSDK-C2DX3"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/ShareSDK-C2DX3"/>
+		</configuration>
 	</storageModule>
 </cproject>
