@@ -21,27 +21,27 @@ using namespace cocos2d;
 #define CCJC_CAST_CCDICTIONARY(__pDict__,__sKey__) dynamic_cast<CCDictionary *>(__pDict__->objectForKey(__sKey__))
 #define CCJC_CAST_CCNULL(__pDict__,__sKey__) dynamic_cast<CCNull *>(__pDict__->objectForKey(__sKey__))
 
-class CCJSONConverter : public CCObject {
+class CCJSONConverter : public Ref {
     
 public:
     static CCJSONConverter * sharedConverter();
     
-    char * strFrom(CCDictionary * dictionary);
+    char * strFrom(__Dictionary * dictionary);
     
-    CCDictionary * dictionaryFrom(const char * str);
+    __Dictionary * dictionaryFrom(const char * str);
     
 private:
-    void convertJsonToDictionary(cJSON *json, CCDictionary *dictionary);
+    void convertJsonToDictionary(cJSON *json, __Dictionary *dictionary);
     
-    void convertDictionaryToJson(CCDictionary *dictionary, cJSON *json);
+    void convertDictionaryToJson(__Dictionary *dictionary, cJSON *json);
     
-    void convertJsonToArray(cJSON * json, CCArray * array);
+    void convertJsonToArray(cJSON * json, __Array * array);
     
-    void convertArrayToJson(CCArray * array, cJSON * json);
+    void convertArrayToJson(__Array * array, cJSON * json);
     
-    cJSON * getObjJson(CCObject * obj);
+    cJSON * getObjJson(Ref * obj);
     
-    CCObject * getJsonObj(cJSON * json);
+    Ref * getJsonObj(cJSON * json);
 };
 
 #endif /* defined(__cocos2d_x_jc__CCJSONConverter__) */

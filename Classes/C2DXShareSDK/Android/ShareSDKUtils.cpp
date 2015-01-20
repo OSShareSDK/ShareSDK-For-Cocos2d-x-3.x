@@ -20,16 +20,16 @@ JNIEXPORT void JNICALL Java_cn_sharesdk_ShareSDKUtils_onJavaCallback
 	CCJSONConverter* json = CCJSONConverter::sharedConverter();
 	const char* ccResp = env->GetStringUTFChars(resp, JNI_FALSE);
 	CCLog("ccResp = %s", ccResp);
-	Dictionary* dic = json->dictionaryFrom(ccResp);
+	__Dictionary* dic = json->dictionaryFrom(ccResp);
 	env->ReleaseStringUTFChars(resp, ccResp);
 	CCNumber* status = (CCNumber*) dic->objectForKey("status"); // Success = 1, Fail = 2, Cancel = 3
 	CCNumber* action = (CCNumber*) dic->objectForKey("action"); //  1 = ACTION_AUTHORIZING,  8 = ACTION_USER_INFOR,9 = ACTION_SHARE
 	CCNumber* platform = (CCNumber*) dic->objectForKey("platform");
-	Dictionary* res = (Dictionary*) dic->objectForKey("res");
-
+	__Dictionary* res = (__Dictionary*) dic->objectForKey("res");
+	__Dictionary* db = (__Dictionary*) dic->objectForKey("platformDb");
 	// TODO add codes here
 	if(1 == status->getIntValue()){
-		callBackComplete(action->getIntValue(), platform->getIntValue(), res);
+		callBackComplete(action->getIntValue(), platform->getIntValue(), res, db);
 	}else if(2 == status->getIntValue()){
 		callBackError(action->getIntValue(), platform->getIntValue(), res);
 	}else{
@@ -39,33 +39,33 @@ JNIEXPORT void JNICALL Java_cn_sharesdk_ShareSDKUtils_onJavaCallback
 	dic->release();
 }
 
-void callBackComplete(int action, int platformId, Dictionary* res){
+void callBackComplete(int action, int platformId, __Dictionary* res, __Dictionary* db){
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
 		authCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, NULL);
 	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
-		infoCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL);
+		infoCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL, db);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL);
 	}
 }
 
-void callBackError(int action, int platformId, Dictionary* res){
+void callBackError(int action, int platformId, __Dictionary* res){
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
 		authCb(C2DXResponseStateFail, (C2DXPlatType) platformId, NULL);
 	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
-		infoCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, NULL);
+		infoCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, NULL, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, NULL);
 	}
 }
 
-void callBackCancel(int action, int platformId, Dictionary* res){
+void callBackCancel(int action, int platformId, __Dictionary* res){
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
 		authCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, NULL);
 	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
-		infoCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, NULL);
+		infoCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, NULL, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
-		shareCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, (Dictionary*)NULL);
+		shareCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, (__Dictionary*)NULL);
 	}
 }
 
@@ -102,7 +102,7 @@ bool stopSDK() {
 	return true;
 }
 
-bool setPlatformDevInfo(int platformId, Dictionary *info) {
+bool setPlatformDevInfo(int platformId, __Dictionary *info) {
 	JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setPlatformConfig", "(ILjava/lang/String;)V");
 	if (!isHave) {
@@ -168,9 +168,9 @@ bool showUser(int platformId, C2DXGetUserInfoResultEvent callback){
 	return true;
 }
 
-bool doShare(int platformId, Dictionary *content, C2DXShareResultEvent callback){
+bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback){
 	JniMethodInfo mi;
-	bool isHave = getMethod(mi, "share", "(ILjava/lang/String;)V");
+	bool isHave = getMethod(mi, "share", "(ILjava/lang/String;Z)V");
 	if (!isHave) {
 		return false;
 	}
@@ -180,25 +180,25 @@ bool doShare(int platformId, Dictionary *content, C2DXShareResultEvent callback)
 	jstring jContent = mi.env->NewStringUTF(ccContent);
 	// free(ccContent);
 
-	mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent);
+	mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent, isSSO);
 	releaseMethod(mi);
 	shareCb = callback;
 	return true;
 }
 
-bool multiShare(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback) {
+bool multiShare(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback) {
 	int index = 0;
 	int count = platTypes->count();
 	while(index < count) {
-		CCInteger* item = (CCInteger*) platTypes->objectAtIndex(index);
+		__Integer* item = (__Integer*) platTypes->objectAtIndex(index);
 		int platformId = item->getValue();
-		doShare(platformId, content, callback);
+		doShare(platformId, content, isSSO, callback);
 		index++;
 	}
 	return true;
 }
 
-bool onekeyShare(int platformId, Dictionary *content, C2DXShareResultEvent callback) {
+bool onekeyShare(int platformId, __Dictionary *content, C2DXShareResultEvent callback) {
 	JniMethodInfo mi;
 	if (platformId > 0) {
 		bool isHave = getMethod(mi, "onekeyShare", "(ILjava/lang/String;)V");

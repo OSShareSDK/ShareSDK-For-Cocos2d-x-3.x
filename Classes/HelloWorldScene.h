@@ -18,15 +18,17 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 
-    void authMenuItemClick(cocos2d::Object* pSender);
+    void authMenuItemClick(cocos2d::Ref* pSender);
 
-    void cancelAuthMenuItemClick(cocos2d::Object* pSender);
+    void cancelAuthMenuItemClick(cocos2d::Ref* pSender);
 
-    void hasAuthMenuItemClick(cocos2d::Object* pSender);
+    void hasAuthMenuItemClick(cocos2d::Ref* pSender);
 
-    void getUserInfoMenuItemClick(cocos2d::Object* pSender);
+    void getUserInfoMenuItemClick(cocos2d::Ref* pSender);
 
-    void shareMenuItemClick(cocos2d::Object* pSender);
+    void shareMenuItemClick(cocos2d::Ref* pSender);
+
+    void shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

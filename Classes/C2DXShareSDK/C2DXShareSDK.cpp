@@ -52,7 +52,7 @@ void C2DXShareSDK::close()
 #endif
 }
 
-void C2DXShareSDK::setPlatformConfig(C2DXPlatType platType, Dictionary *configInfo)
+void C2DXShareSDK::setPlatformConfig(C2DXPlatType platType, __Dictionary *configInfo)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
@@ -129,12 +129,12 @@ void C2DXShareSDK::getUserInfo(C2DXPlatType platType, C2DXGetUserInfoResultEvent
 #endif
 }
 
-void C2DXShareSDK::shareContent(C2DXPlatType platType, Dictionary *content, C2DXShareResultEvent callback)
+void C2DXShareSDK::shareContent(C2DXPlatType platType, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
     //TODO: Andorid
-    doShare((int)platType, content, callback);
+    doShare((int)platType, content, isSSO, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -144,12 +144,12 @@ void C2DXShareSDK::shareContent(C2DXPlatType platType, Dictionary *content, C2DX
 #endif
 }
 
-void C2DXShareSDK::oneKeyShareContent(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback)
+void C2DXShareSDK::oneKeyShareContent(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
     //TODO: Andorid
-    multiShare(platTypes, content, callback);
+    multiShare(platTypes, content, isSSO, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -159,7 +159,7 @@ void C2DXShareSDK::oneKeyShareContent(Array *platTypes, Dictionary *content, C2D
 #endif
 }
 
-void C2DXShareSDK::showShareMenu(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback)
+void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
@@ -174,7 +174,7 @@ void C2DXShareSDK::showShareMenu(Array *platTypes, Dictionary *content, C2DXShar
 #endif
 }
 
-void C2DXShareSDK::showShareMenu(Array *platTypes, Dictionary *content, Point pt, C2DXMenuArrowDirection direction, C2DXShareResultEvent callback)
+void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, Point pt, C2DXMenuArrowDirection direction, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
@@ -189,7 +189,7 @@ void C2DXShareSDK::showShareMenu(Array *platTypes, Dictionary *content, Point pt
 #endif
 }
 
-void C2DXShareSDK::showShareView(C2DXPlatType platType, Dictionary *content, C2DXShareResultEvent callback)
+void C2DXShareSDK::showShareView(C2DXPlatType platType, __Dictionary *content, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     

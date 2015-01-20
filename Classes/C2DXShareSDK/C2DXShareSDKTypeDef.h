@@ -105,17 +105,17 @@ namespace cn
         /**
          *	@brief	授权返回回调事件
          */
-        typedef void(*C2DXAuthResultEvent) (C2DXResponseState state, C2DXPlatType platType, Dictionary *error);
+        typedef void(*C2DXAuthResultEvent) (C2DXResponseState state, C2DXPlatType platType, __Dictionary *error);
         
         /**
          *	@brief	获取用户信息返回回调事件
          */
-        typedef void(*C2DXGetUserInfoResultEvent) (C2DXResponseState state, C2DXPlatType platType, Dictionary *userInfo, Dictionary *error);
+        typedef void(*C2DXGetUserInfoResultEvent) (C2DXResponseState state, C2DXPlatType platType, __Dictionary *userInfo, __Dictionary *error, __Dictionary *db);
         
         /**
          *	@brief	分享返回回调事件
          */
-        typedef void(*C2DXShareResultEvent) (C2DXResponseState state, C2DXPlatType platType, Dictionary *shareInfo, Dictionary *error);
+        typedef void(*C2DXShareResultEvent) (C2DXResponseState state, C2DXPlatType platType, __Dictionary *shareInfo, __Dictionary *error);
     }
 }
 

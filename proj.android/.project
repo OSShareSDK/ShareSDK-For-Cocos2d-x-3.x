@@ -116,7 +116,7 @@
 		<link>
 			<name>libcocos2d</name>
 			<type>2</type>
-			<location>/Volumes/jecelyin/work/cocos2d-x/3.x/cocos/platform/android/java/src</location>
+			<location>D:/cocos2d-x-3.3/cocos/platform/android/java/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

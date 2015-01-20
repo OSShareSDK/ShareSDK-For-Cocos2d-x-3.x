@@ -32,11 +32,11 @@ extern "C" {
 JNIEXPORT void JNICALL Java_cn_sharesdk_ShareSDKUtils_onJavaCallback
   (JNIEnv * env, jclass thiz, jstring resp);
 
-void callBackComplete(int action, int platformId, Dictionary* res);
+void callBackComplete(int action, int platformId, __Dictionary* res, __Dictionary* db);
 
-void callBackError(int action, int platformId, Dictionary* res);
+void callBackError(int action, int platformId, __Dictionary* res);
 
-void callBackCancel(int action, int platformId, Dictionary* res);
+void callBackCancel(int action, int platformId, __Dictionary* res);
 
 bool initShareSDK(const char* appKey, bool useAppTrusteeship);
 
@@ -46,7 +46,7 @@ void releaseMethod(JniMethodInfo &mi);
 
 bool stopSDK();
 
-bool setPlatformDevInfo(int platformId, Dictionary *info);
+bool setPlatformDevInfo(int platformId, __Dictionary *info);
 
 bool doAuthorize(int platformId, C2DXAuthResultEvent callback);
 
@@ -56,11 +56,11 @@ bool isValid(int platformId);
 
 bool showUser(int platformId, C2DXGetUserInfoResultEvent callback);
 
-bool doShare(int platformId, Dictionary *content, C2DXShareResultEvent callback);
+bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
 
-bool multiShare(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback);
+bool multiShare(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
 
-bool onekeyShare(int platformId, Dictionary *content, C2DXShareResultEvent callback);
+bool onekeyShare(int platformId, __Dictionary *content, C2DXShareResultEvent callback);
 
 void toastShow(const char* msg);
 

@@ -45,7 +45,7 @@ namespace cn
              *	@param 	platType 	平台类型
              *	@param 	configInfo 	配置信息
              */
-            static void setPlatformConfig(C2DXPlatType platType, CCDictionary *configInfo);
+            static void setPlatformConfig(C2DXPlatType platType, __Dictionary *configInfo);
             
             /**
              *	@brief	用户授权
@@ -84,9 +84,10 @@ namespace cn
              *
              *	@param 	platType 	平台类型
              *	@param 	content 	分享内容
+             *	@param  isSSO       是否SSO授权
              *	@param 	callback 	回调方法
              */
-            static void shareContent(C2DXPlatType platType, Dictionary *content, C2DXShareResultEvent callback);
+            static void shareContent(C2DXPlatType platType, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
             
             /**
              *	@brief	一键分享内容
@@ -95,7 +96,7 @@ namespace cn
              *	@param 	content 	分享内容
              *	@param 	callback 	回调方法
              */
-            static void oneKeyShareContent(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback);
+            static void oneKeyShareContent(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
             
             /**
              *	@brief	显示分享菜单
@@ -104,7 +105,7 @@ namespace cn
              *	@param 	content 	分享内容
              *	@param 	callback 	回调方法
              */
-            static void showShareMenu(Array *platTypes, Dictionary *content, C2DXShareResultEvent callback);
+            static void showShareMenu(__Array *platTypes, __Dictionary *content, C2DXShareResultEvent callback);
             
             /**
              *	@brief	显示分享菜单
@@ -115,7 +116,7 @@ namespace cn
              *  @param  direction   弹出分享菜单指向，仅用于设置iPad分享菜单弹出
              *	@param 	callback 	回调方法
              */
-            static void showShareMenu(Array *platTypes, Dictionary *content, Point pt, C2DXMenuArrowDirection direction, C2DXShareResultEvent callback);
+            static void showShareMenu(__Array *platTypes, __Dictionary *content, Point pt, C2DXMenuArrowDirection direction, C2DXShareResultEvent callback);
             
             /**
              *	@brief	显示分享视图
@@ -124,7 +125,7 @@ namespace cn
              *	@param 	content 	分享内容
              *	@param 	callback 	回调方法
              */
-            static void showShareView(C2DXPlatType platType, Dictionary *content, C2DXShareResultEvent callback);
+            static void showShareView(C2DXPlatType platType, __Dictionary *content, C2DXShareResultEvent callback);
 
             /**
              * @brief 显示一个消息

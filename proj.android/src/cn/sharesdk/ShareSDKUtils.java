@@ -2,14 +2,17 @@ package cn.sharesdk;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import m.framework.utils.Hashon;
 import m.framework.utils.UIHandler;
+
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.plugin.PluginWrapper;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import android.content.Context;
@@ -57,6 +60,7 @@ public class ShareSDKUtils {
 				map.put("action", action);
 				map.put("status", 1); // Success = 1, Fail = 2, Cancel = 3
 				map.put("res", res);
+				map.put("platformDb", getPlatformDB(platform));
 				Message msg = new Message();
 				msg.obj = hashon.fromHashMap(map);
 				UIHandler.sendMessage(msg, cb);
@@ -92,6 +96,19 @@ public class ShareSDKUtils {
 				UIHandler.sendMessage(msg, cb);
 			}
 		};
+	}
+	
+	private static HashMap<String, Object> getPlatformDB(Platform platform){
+		HashMap<String, Object> platformDbMap = new HashMap<String, Object>();
+		PlatformDb db = platform.getDb();
+		platformDbMap.put("token", db.getToken());
+		platformDbMap.put("userGender", db.getUserGender());
+		platformDbMap.put("userId", db.getUserId());
+		platformDbMap.put("userName", db.getUserName());
+		platformDbMap.put("userIcon", db.getUserIcon());
+		platformDbMap.put("platformName", db.getPlatformNname());
+		platformDbMap.put("platformVersion", db.getPlatformVersion());
+		return platformDbMap;
 	}
 
 	private static native void onJavaCallback(String resp);
@@ -184,7 +201,7 @@ public class ShareSDKUtils {
 		plat.showUser(null);
 	}
 
-	public static void share(int platformId, String contentJson) {
+	public static void share(int platformId, String contentJson , boolean isSSO) {
 		if (DEBUG) {
 			System.out.println("share");
 		}
@@ -195,6 +212,7 @@ public class ShareSDKUtils {
 			HashMap<String, Object> content = hashon.fromJson(contentJson);
 			content = nativeMapToJavaMap(content);
 			ShareParams sp = new ShareParams(content);
+			plat.SSOSetting(isSSO);
 			plat.share(sp);
 		} catch (Throwable t) {
 			paListaner.onError(plat, Platform.ACTION_SHARE, t);
@@ -322,4 +340,6 @@ public class ShareSDKUtils {
 			}
 		});
 	}
+	
+	
 }
