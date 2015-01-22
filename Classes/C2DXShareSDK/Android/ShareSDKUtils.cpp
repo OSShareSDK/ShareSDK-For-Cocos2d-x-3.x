@@ -186,6 +186,19 @@ bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultE
 	return true;
 }
 
+bool doListFriend(int platformId, int count, int page, const char* account, C2DXGetUserInfoResultEvent callback){
+	JniMethodInfo mi;
+		bool isHave = getMethod(mi, "listFriend", "(IIILjava/lang/String;)V");
+		if (!isHave) {
+			return false;
+		}
+		jstring jaccount = mi.env->NewStringUTF(account);
+		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, count, page, jaccount);
+		releaseMethod(mi);
+		infoCb = callback;
+		return true;
+}
+
 bool multiShare(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback) {
 	int index = 0;
 	int count = platTypes->count();

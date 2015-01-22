@@ -204,6 +204,20 @@ void C2DXShareSDK::showShareView(C2DXPlatType platType, __Dictionary *content, C
 #endif
 }
 
+void C2DXShareSDK::getFriendList(C2DXPlatType platType, int count, int page, const char *account, C2DXGetUserInfoResultEvent callback){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    //TODO: Android
+	doListFriend((int) platType, count, page, account, callback);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+    //TODO: iOS
+    //
+
+#endif
+}
+
 void C2DXShareSDK::toast(const char *msg)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

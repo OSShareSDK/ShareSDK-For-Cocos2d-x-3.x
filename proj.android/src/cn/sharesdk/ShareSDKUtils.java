@@ -190,6 +190,18 @@ public class ShareSDKUtils {
 		Platform plat = ShareSDK.getPlatform(context, name);
 		return plat.isValid();
 	}
+	
+	public static void listFriend(int platformId, int count, int page, String account){
+		if (DEBUG) {
+			System.out.println("listFriend");
+			System.out.println("count:" + count + " page:" + page + " account:" + account);
+		}
+		String name = ShareSDK.platformIdToName(platformId);
+		Platform plat = ShareSDK.getPlatform(context, name);
+		plat.setPlatformActionListener(paListaner);
+		plat.SSOSetting(true);
+		plat.listFriend(count, page, account);
+	}
 
 	public static void showUser(int platformId) {
 		if (DEBUG) {

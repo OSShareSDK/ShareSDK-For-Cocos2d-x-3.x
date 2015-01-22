@@ -128,6 +128,16 @@ namespace cn
             static void showShareView(C2DXPlatType platType, __Dictionary *content, C2DXShareResultEvent callback);
 
             /**
+             *	@brief	获得好友列表
+             *
+             *	@param 	platType 	平台类型
+             *	@param 	count 	              每页数量
+             *	@param 	page 		页数
+             *	@param  account     用户名
+             */
+            static void getFriendList(C2DXPlatType platType, int count, int page, const char *account, C2DXGetUserInfoResultEvent callback);
+
+            /**
              * @brief 显示一个消息
              * @param msg 消息内容
              */

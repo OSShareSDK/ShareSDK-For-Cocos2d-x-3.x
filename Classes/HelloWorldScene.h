@@ -26,6 +26,8 @@ public:
 
     void getUserInfoMenuItemClick(cocos2d::Ref* pSender);
 
+    void getFriendListMenuItemClick(cocos2d::Ref* pSender);
+
     void shareMenuItemClick(cocos2d::Ref* pSender);
 
     void shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender);

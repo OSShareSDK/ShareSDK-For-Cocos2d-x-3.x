@@ -24,12 +24,12 @@ void getUserResultHandler(C2DXResponseState state, C2DXPlatType platType, __Dict
     if (state == C2DXResponseStateSuccess)
     {
         //输出用户信息
-    	static __Array*allKeys = db -> allKeys();
+    	static __Array*allKeys = userInfo -> allKeys();
                     allKeys->retain();
         for (int i = 0; i < allKeys -> count(); i++)
         {
         	__String *key = (__String *)allKeys -> objectAtIndex(i);
-            Ref *obj = db -> objectForKey(key -> getCString());
+            Ref *obj = userInfo -> objectForKey(key -> getCString());
 
             CCLog("key = %s", key -> getCString());
             if (dynamic_cast<__String *>(obj))
@@ -110,11 +110,14 @@ bool HelloWorld::init()
     MenuItemLabel *getUserMenuItem = MenuItemLabel::create(LabelTTF::create("用户信息", "Arial", 40),
                                                                this,
                                                                menu_selector(HelloWorld::getUserInfoMenuItemClick));
+    MenuItemLabel *getFriendListMenuItem = MenuItemLabel::create(LabelTTF::create("好友列表", "Arial", 40),
+                                                                   this,
+                                                                   menu_selector(HelloWorld::getFriendListMenuItemClick));
     MenuItemLabel *shareMenuItem = MenuItemLabel::create(LabelTTF::create("分享", "Arial", 40),
                                                              this,
                                                              menu_selector(HelloWorld::shareMenuItemClick));
 
-    Menu *itemsMenu = Menu::create(shareForWechatTimeLineItem, authMenuItem, cancelAuthMenuItem, hasAuthMenuItem, getUserMenuItem, shareMenuItem, (MenuItemLabel*)NULL);
+    Menu *itemsMenu = Menu::create(shareForWechatTimeLineItem, authMenuItem, cancelAuthMenuItem, hasAuthMenuItem, getUserMenuItem, getFriendListMenuItem, shareMenuItem, (MenuItemLabel*)NULL);
     itemsMenu -> alignItemsHorizontallyWithPadding(20);
     itemsMenu -> setPosition(Point(Director::getInstance() -> getWinSize().width / 2, 100));
     this -> addChild(itemsMenu);
@@ -206,6 +209,12 @@ void HelloWorld::hasAuthMenuItemClick(cocos2d::Ref* pSender)
 void HelloWorld::getUserInfoMenuItemClick(cocos2d::Ref* pSender)
 {
     C2DXShareSDK::getUserInfo(C2DXPlatTypeQQ, getUserResultHandler);
+}
+
+void HelloWorld::getFriendListMenuItemClick(cocos2d::Ref* pSender)
+{
+	//account 填入昵称
+	C2DXShareSDK::getFriendList(C2DXPlatTypeSinaWeibo, 10, 1, "", getUserResultHandler);
 }
 
 void HelloWorld::shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender)

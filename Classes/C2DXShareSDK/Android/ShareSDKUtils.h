@@ -58,6 +58,8 @@ bool showUser(int platformId, C2DXGetUserInfoResultEvent callback);
 
 bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
 
+bool doListFriend(int platformId, int count, int page, const char* account, C2DXGetUserInfoResultEvent callback);
+
 bool multiShare(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
 
 bool onekeyShare(int platformId, __Dictionary *content, C2DXShareResultEvent callback);
