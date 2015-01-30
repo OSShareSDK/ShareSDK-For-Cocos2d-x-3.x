@@ -113,6 +113,9 @@ bool HelloWorld::init()
     MenuItemLabel *getFriendListMenuItem = MenuItemLabel::create(LabelTTF::create("好友列表", "Arial", 40),
                                                                    this,
                                                                    menu_selector(HelloWorld::getFriendListMenuItemClick));
+    MenuItemLabel *followFriendMenuItem = MenuItemLabel::create(LabelTTF::create("关注好友", "Arial", 40),
+                                                                      this,
+                                                                      menu_selector(HelloWorld::followFriendMenuItemClick));
     MenuItemLabel *shareMenuItem = MenuItemLabel::create(LabelTTF::create("分享", "Arial", 40),
                                                              this,
                                                              menu_selector(HelloWorld::shareMenuItemClick));
@@ -215,6 +218,12 @@ void HelloWorld::getFriendListMenuItemClick(cocos2d::Ref* pSender)
 {
 	//account 填入昵称
 	C2DXShareSDK::getFriendList(C2DXPlatTypeSinaWeibo, 10, 1, "", getUserResultHandler);
+}
+
+void HelloWorld::followFriendMenuItemClick(cocos2d::Ref* pSender)
+{
+	//account 填入昵称
+	C2DXShareSDK::followFriend(C2DXPlatTypeSinaWeibo, "", shareResultHandler);
 }
 
 void HelloWorld::shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender)

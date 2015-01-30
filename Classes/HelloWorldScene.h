@@ -24,6 +24,8 @@ public:
 
     void hasAuthMenuItemClick(cocos2d::Ref* pSender);
 
+    void followFriendMenuItemClick(cocos2d::Ref* pSender);
+
     void getUserInfoMenuItemClick(cocos2d::Ref* pSender);
 
     void getFriendListMenuItemClick(cocos2d::Ref* pSender);

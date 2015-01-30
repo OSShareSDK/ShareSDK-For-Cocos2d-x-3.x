@@ -162,9 +162,10 @@ void C2DXShareSDK::oneKeyShareContent(__Array *platTypes, __Dictionary *content,
 void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
+	//The theme parameters mainly set the style of the interface,You can choose two "skyblue" or "classic" style
+	const char* theme = "classic";
     //TODO: Andorid
-    onekeyShare(0, content, callback);
+    onekeyShare(0, content, theme, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -177,7 +178,6 @@ void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, C2DX
 void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, Point pt, C2DXMenuArrowDirection direction, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
     //TODO: Android
     showShareMenu(0, content, callback);
     
@@ -192,9 +192,10 @@ void C2DXShareSDK::showShareMenu(__Array *platTypes, __Dictionary *content, Poin
 void C2DXShareSDK::showShareView(C2DXPlatType platType, __Dictionary *content, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
+	//The theme parameters mainly set the style of the interface,You can choose two "skyblue" or "classic" style
+	const char* theme = "classic";
     //TODO: Android
-    onekeyShare((int) platType, content, callback);
+    onekeyShare((int) platType, content, theme, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -209,6 +210,20 @@ void C2DXShareSDK::getFriendList(C2DXPlatType platType, int count, int page, con
 
     //TODO: Android
 	doListFriend((int) platType, count, page, account, callback);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+    //TODO: iOS
+    //
+
+#endif
+}
+
+void C2DXShareSDK::followFriend(C2DXPlatType platType, const char* account, C2DXShareResultEvent callback){
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    //TODO: Android
+	doFollowFriend((int) platType, account, callback);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 

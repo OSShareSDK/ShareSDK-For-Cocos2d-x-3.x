@@ -138,6 +138,14 @@ namespace cn
             static void getFriendList(C2DXPlatType platType, int count, int page, const char *account, C2DXGetUserInfoResultEvent callback);
 
             /**
+             *	@brief	关注好友
+             *
+             *	@param 	platType 	平台类型
+             *	@param 	account 	呢称
+             */
+            static void followFriend(C2DXPlatType platType, const char *account, C2DXShareResultEvent callback);
+
+            /**
              * @brief 显示一个消息
              * @param msg 消息内容
              */

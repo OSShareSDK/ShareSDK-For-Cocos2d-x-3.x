@@ -168,6 +168,20 @@ bool showUser(int platformId, C2DXGetUserInfoResultEvent callback){
 	return true;
 }
 
+bool doFollowFriend(int platformId, const char* account, C2DXShareResultEvent callback){
+	JniMethodInfo mi;
+	bool isHave = getMethod(mi, "followFriend", "(ILjava/lang/String;)V");
+	if(!isHave){
+		return false;
+	}
+	jstring jContent = mi.env->NewStringUTF(account);
+	mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent);
+	releaseMethod(mi);
+	shareCb = callback;
+
+	return true;
+}
+
 bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback){
 	JniMethodInfo mi;
 	bool isHave = getMethod(mi, "share", "(ILjava/lang/String;Z)V");
@@ -211,15 +225,15 @@ bool multiShare(__Array *platTypes, __Dictionary *content, bool isSSO, C2DXShare
 	return true;
 }
 
-bool onekeyShare(int platformId, __Dictionary *content, C2DXShareResultEvent callback) {
+bool onekeyShare(int platformId, __Dictionary *content, const char* theme, C2DXShareResultEvent callback) {
 	JniMethodInfo mi;
 	if (platformId > 0) {
-		bool isHave = getMethod(mi, "onekeyShare", "(ILjava/lang/String;)V");
+		bool isHave = getMethod(mi, "onekeyShare", "(ILjava/lang/String;Ljava/lang/String;)V");
 		if (!isHave) {
 			return false;
 		}
 	} else {
-		bool isHave = getMethod(mi, "onekeyShare", "(Ljava/lang/String;)V");
+		bool isHave = getMethod(mi, "onekeyShare", "(Ljava/lang/String;Ljava/lang/String;)V");
 		if (!isHave) {
 			return false;
 		}
@@ -228,12 +242,13 @@ bool onekeyShare(int platformId, __Dictionary *content, C2DXShareResultEvent cal
 	CCJSONConverter* json = CCJSONConverter::sharedConverter();
 	const char* ccContent = json->strFrom(content);
 	jstring jContent = mi.env->NewStringUTF(ccContent);
+	jstring jtheme = mi.env->NewStringUTF(theme);
 	// free(ccContent);
 
 	if (platformId > 0) {
-		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent);
+		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent, jtheme);
 	} else {
-		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jContent);
+		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jContent, jtheme);
 	}
 	releaseMethod(mi);
 	

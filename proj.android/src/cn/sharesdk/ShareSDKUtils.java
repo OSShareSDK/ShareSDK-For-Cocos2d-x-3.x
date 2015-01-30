@@ -15,6 +15,7 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 import android.content.Context;
 import android.os.Message;
 import android.os.Handler.Callback;
@@ -212,6 +213,16 @@ public class ShareSDKUtils {
 		plat.setPlatformActionListener(paListaner);
 		plat.showUser(null);
 	}
+	
+	public static void followFriend(int platformId, String account){
+		if (DEBUG) {
+			System.out.println("followFriend");
+		}
+		String name = ShareSDK.platformIdToName(platformId);
+		Platform plat = ShareSDK.getPlatform(context, name);
+		plat.setPlatformActionListener(paListaner);
+		plat.followFriend(account);
+	}
 
 	public static void share(int platformId, String contentJson , boolean isSSO) {
 		if (DEBUG) {
@@ -296,11 +307,11 @@ public class ShareSDKUtils {
 		return Platform.SHARE_TEXT;
 	}
 
-	public static void onekeyShare(String contentJson) {
-		onekeyShare(0, contentJson);
+	public static void onekeyShare(String contentJson, String theme) {
+		onekeyShare(0, contentJson, theme);
 	}
 
-	public static void onekeyShare(int platformId, String contentJson) {
+	public static void onekeyShare(int platformId, String contentJson, String theme) {
 		if (DEBUG) {
 			System.out.println("OnekeyShare");
 		}
@@ -338,6 +349,14 @@ public class ShareSDKUtils {
 		oks.setCallback(paListaner);
 		if (platformId > 0) {
 			oks.setPlatform(ShareSDK.platformIdToName(platformId));
+		}
+		Log.i("", "theme = " + theme);
+		if(theme.equals("skyblue")){
+			Log.i("", "theme = skyblue");
+			oks.setTheme(OnekeyShareTheme.SKYBLUE);
+		}else {
+			Log.i("", "theme = classic");
+			oks.setTheme(OnekeyShareTheme.CLASSIC);
 		}
 		oks.show(context);
 	}
