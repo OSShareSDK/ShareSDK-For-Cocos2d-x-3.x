@@ -40,9 +40,10 @@ JNIEXPORT void JNICALL Java_cn_sharesdk_ShareSDKUtils_onJavaCallback
 }
 
 void callBackComplete(int action, int platformId, __Dictionary* res, __Dictionary* db){
+	CCLog("complete callback");
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
 		authCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, NULL);
-	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
+	} else if ((action == 8 || action == 2) && NULL != infoCb) { // 8 = ACTION_USER_INFOR 2 = ACTION_GET_FRIEND_LIST
 		infoCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL, db);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL);
@@ -51,18 +52,18 @@ void callBackComplete(int action, int platformId, __Dictionary* res, __Dictionar
 
 void callBackError(int action, int platformId, __Dictionary* res){
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
-		authCb(C2DXResponseStateFail, (C2DXPlatType) platformId, NULL);
-	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
-		infoCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, NULL, NULL);
+		authCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res);
+	} else if ((action == 8 || action == 2) && NULL != infoCb) { // 8 = ACTION_USER_INFOR 2 = ACTION_GET_FRIEND_LIST
+		infoCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, res, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
-		shareCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, NULL);
+		shareCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, res);
 	}
 }
 
 void callBackCancel(int action, int platformId, __Dictionary* res){
 	if (action == 1 && NULL != authCb) { // 1 = ACTION_AUTHORIZING
 		authCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, NULL);
-	} else if (action == 8 && NULL != infoCb) { // 8 = ACTION_USER_INFOR
+	} else if ((action == 8 || action == 2) && NULL != infoCb) { // 8 = ACTION_USER_INFOR 2 = ACTION_GET_FRIEND_LIST
 		infoCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, NULL, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, (__Dictionary*)NULL);

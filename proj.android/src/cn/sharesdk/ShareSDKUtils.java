@@ -2,6 +2,9 @@ package cn.sharesdk;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import m.framework.utils.Hashon;
 import m.framework.utils.UIHandler;
@@ -14,6 +17,7 @@ import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.framework.statistics.NewAppReceiver;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 import android.content.Context;
@@ -60,12 +64,16 @@ public class ShareSDKUtils {
 						ShareSDK.platformNameToId(platform.getName()));
 				map.put("action", action);
 				map.put("status", 1); // Success = 1, Fail = 2, Cancel = 3
-				map.put("res", res);
+				if(action == 8){
+					//action = 2, 8, 获取用户列表与用户信息才放入   
+					map.put("res", res);
+				}
 				map.put("platformDb", getPlatformDB(platform));
 				Message msg = new Message();
 				msg.obj = hashon.fromHashMap(map);
 				UIHandler.sendMessage(msg, cb);
 			}
+
 
 			public void onError(Platform platform, int action, Throwable t) {
 				if (DEBUG) {
@@ -99,6 +107,24 @@ public class ShareSDKUtils {
 		};
 	}
 	
+	@SuppressWarnings("unchecked")
+	private static Object reorganizeRes(HashMap<String, Object> res) {
+		Iterator<Entry<String, Object>> iter = res.entrySet().iterator();
+		Object users = null;
+		while (iter.hasNext()) {  
+            Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iter.next(); 
+            //判断如果对象类型是ArrayList则取数据进行封装
+            if((entry.getValue()) instanceof ArrayList){
+            	System.out.println("instanceof = " + entry.getValue());
+            	ArrayList<HashMap<String, Object>> data = new ArrayList<HashMap<String,Object>>();
+            	data = (ArrayList<HashMap<String, Object>>) entry.getValue();
+            	System.out.println("data = " + data);
+            	users = data;
+            }
+		}
+		return users;
+	}
+	
 	private static HashMap<String, Object> getPlatformDB(Platform platform){
 		HashMap<String, Object> platformDbMap = new HashMap<String, Object>();
 		PlatformDb db = platform.getDb();
@@ -117,16 +143,16 @@ public class ShareSDKUtils {
 	private static HashMap<String, Object> throwableToMap(Throwable t) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", t.getMessage());
-		ArrayList<HashMap<String, Object>> traces = new ArrayList<HashMap<String, Object>>();
-		for (StackTraceElement trace : t.getStackTrace()) {
-			HashMap<String, Object> element = new HashMap<String, Object>();
-			element.put("cls", trace.getClassName());
-			element.put("method", trace.getMethodName());
-			element.put("file", trace.getFileName());
-			element.put("line", trace.getLineNumber());
-			traces.add(element);
-		}
-		map.put("stack", traces);
+//		ArrayList<HashMap<String, Object>> traces = new ArrayList<HashMap<String, Object>>();
+//		for (StackTraceElement trace : t.getStackTrace()) {
+//			HashMap<String, Object> element = new HashMap<String, Object>();
+//			element.put("cls", trace.getClassName());
+//			element.put("method", trace.getMethodName());
+//			element.put("file", trace.getFileName());
+//			element.put("line", trace.getLineNumber());
+//			traces.add(element);
+//		}
+//		map.put("stack", traces);
 		Throwable cause = t.getCause();
 		if (cause != null) {
 			map.put("cause", throwableToMap(cause));

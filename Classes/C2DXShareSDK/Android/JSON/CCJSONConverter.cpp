@@ -123,38 +123,45 @@ Ref * CCJSONConverter::getJsonObj(cJSON * json)
     switch (json->type) {
         case cJSON_Object:
         {
+        	CCLog("cJSON_Object");
             __Dictionary * Dictionary = new __Dictionary();
             convertJsonToDictionary(json, Dictionary);
             return Dictionary;
         }
         case cJSON_Array:
         {
+        	CCLog("cJSON_Array");
             __Array * array = new __Array();
             convertJsonToArray(json, array);
             return array;
         }
         case cJSON_String:
         {
+        	CCLog("cJSON_String");
             __String * string = new __String(json->valuestring);
             return string;
         }
         case cJSON_Number:
         {
+        	CCLog("cJSON_Number");
             CCNumber * number = new CCNumber(json->valuedouble);
             return number;
         }
         case cJSON_True:
         {
+        	CCLog("cJSON_True");
             CCNumber * boolean = new CCNumber(1);
             return boolean;
         }
         case cJSON_False:
         {
+        	CCLog("cJSON_False");
             CCNumber * boolean = new CCNumber(0);
             return boolean;
         }
         case cJSON_NULL:
         {
+        	CCLog("cJSON_NULL");
             CCNull * null = new CCNull();
             return null;
         }

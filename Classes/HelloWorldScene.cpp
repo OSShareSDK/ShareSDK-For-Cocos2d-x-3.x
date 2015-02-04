@@ -6,6 +6,7 @@ using namespace cn::sharesdk;
 
 void authResultHandler(C2DXResponseState state, C2DXPlatType platType, __Dictionary *error)
 {
+	CCLog("authResultHandler");
     switch (state) {
         case C2DXResponseStateSuccess:
             C2DXShareSDK::toast("授权成功");
@@ -21,36 +22,38 @@ void authResultHandler(C2DXResponseState state, C2DXPlatType platType, __Diction
 
 void getUserResultHandler(C2DXResponseState state, C2DXPlatType platType, __Dictionary *userInfo, __Dictionary *error, __Dictionary *db)
 {
+	CCLog("getUserResultHandler");
     if (state == C2DXResponseStateSuccess)
     {
-        //输出用户信息
-    	static __Array*allKeys = userInfo -> allKeys();
-                    allKeys->retain();
-        for (int i = 0; i < allKeys -> count(); i++)
-        {
-        	__String *key = (__String *)allKeys -> objectAtIndex(i);
-            Ref *obj = userInfo -> objectForKey(key -> getCString());
+    	//输出用户信息
+    	        Array *allKeys = db -> allKeys();
+    	                    allKeys->retain();
+    	        for (int i = 0; i < allKeys -> count(); i++)
+    	        {
+    	            String *key = (String *)allKeys -> objectAtIndex(i);
+    	            Object *obj = db -> objectForKey(key -> getCString());
 
-            CCLog("key = %s", key -> getCString());
-            if (dynamic_cast<__String *>(obj))
-            {
-                CCLog("value = %s", dynamic_cast<__String *>(obj) -> getCString());
-            }
-            else if (dynamic_cast<__Integer *>(obj))
-            {
-                CCLog("value = %d", dynamic_cast<__Integer *>(obj) -> getValue());
-            }
-            else if (dynamic_cast<__Double *>(obj))
-            {
-                CCLog("value = %f", dynamic_cast<__Double *>(obj) -> getValue());
-            }
-        }
-        allKeys->release();
+    	            CCLog("key = %s", key -> getCString());
+    	            if (dynamic_cast<String *>(obj))
+    	            {
+    	                CCLog("value = %s", dynamic_cast<String *>(obj) -> getCString());
+    	            }
+    	            else if (dynamic_cast<Integer *>(obj))
+    	            {
+    	                CCLog("value = %d", dynamic_cast<Integer *>(obj) -> getValue());
+    	            }
+    	            else if (dynamic_cast<Double *>(obj))
+    	            {
+    	                CCLog("value = %f", dynamic_cast<Double *>(obj) -> getValue());
+    	            }
+    	        }
+    	        allKeys->release();
     }
 }
 
 void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, __Dictionary *shareInfo, __Dictionary *error)
 {
+	CCLog("shareResultHandler");
     switch (state) {
         case C2DXResponseStateSuccess:
             C2DXShareSDK::toast("分享成功");
@@ -120,7 +123,7 @@ bool HelloWorld::init()
                                                              this,
                                                              menu_selector(HelloWorld::shareMenuItemClick));
 
-    Menu *itemsMenu = Menu::create(shareForWechatTimeLineItem, authMenuItem, cancelAuthMenuItem, hasAuthMenuItem, getUserMenuItem, getFriendListMenuItem, shareMenuItem, (MenuItemLabel*)NULL);
+    Menu *itemsMenu = Menu::create(shareForWechatTimeLineItem, authMenuItem, cancelAuthMenuItem, hasAuthMenuItem, getUserMenuItem, getFriendListMenuItem, followFriendMenuItem, shareMenuItem, (MenuItemLabel*)NULL);
     itemsMenu -> alignItemsHorizontallyWithPadding(20);
     itemsMenu -> setPosition(Point(Director::getInstance() -> getWinSize().width / 2, 100));
     this -> addChild(itemsMenu);
@@ -217,13 +220,13 @@ void HelloWorld::getUserInfoMenuItemClick(cocos2d::Ref* pSender)
 void HelloWorld::getFriendListMenuItemClick(cocos2d::Ref* pSender)
 {
 	//account 填入昵称
-	C2DXShareSDK::getFriendList(C2DXPlatTypeSinaWeibo, 10, 1, "", getUserResultHandler);
+	C2DXShareSDK::getFriendList(C2DXPlatTypeSinaWeibo, 10, 1, "沂谋大爱蓝军", getUserResultHandler);
 }
 
 void HelloWorld::followFriendMenuItemClick(cocos2d::Ref* pSender)
 {
 	//account 填入昵称
-	C2DXShareSDK::followFriend(C2DXPlatTypeSinaWeibo, "", shareResultHandler);
+	C2DXShareSDK::followFriend(C2DXPlatTypeSinaWeibo, "淡淡想起丶", shareResultHandler);
 }
 
 void HelloWorld::shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender)
