@@ -64,7 +64,7 @@ public class ShareSDKUtils {
 						ShareSDK.platformNameToId(platform.getName()));
 				map.put("action", action);
 				map.put("status", 1); // Success = 1, Fail = 2, Cancel = 3
-				if(action == 8){
+				if(action == 8 || action == 2){
 					//action = 2, 8, 获取用户列表与用户信息才放入   
 					map.put("res", res);
 				}

@@ -53,6 +53,7 @@ void CCJSONConverter::convertJsonToDictionary(cJSON *json, __Dictionary *Diction
     while (j) {
         Ref * obj = getJsonObj(j);
         Dictionary->setObject(obj, j->string);
+        CCLog("Dictionary setObject -- addObject success  %s", j->string);
         j = j->next;
     }
 }
@@ -80,6 +81,7 @@ void CCJSONConverter::convertJsonToArray(cJSON * json, __Array * array)
         Ref * objItem = getJsonObj(jsonItem);
         array->addObject(objItem);
     }
+    CCLog("convertJsonToArray -- end");
 }
 
 void CCJSONConverter::convertArrayToJson(__Array * array, cJSON * json)
@@ -131,7 +133,10 @@ Ref * CCJSONConverter::getJsonObj(cJSON * json)
         case cJSON_Array:
         {
         	CCLog("cJSON_Array");
-            __Array * array = new __Array();
+            //__Array * array = new __Array();
+        	cocos2d::__Array* array;
+        	array = __Array::create();
+        	array->retain();
             convertJsonToArray(json, array);
             return array;
         }
