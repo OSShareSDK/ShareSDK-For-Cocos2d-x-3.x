@@ -14,6 +14,7 @@ extern "C" {
 C2DXAuthResultEvent authCb;
 C2DXGetUserInfoResultEvent infoCb;
 C2DXShareResultEvent shareCb;
+C2DXFollowResultEvent followCb;
 
 JNIEXPORT void JNICALL Java_cn_sharesdk_ShareSDKUtils_onJavaCallback
   (JNIEnv * env, jclass thiz, jstring resp) {
@@ -47,6 +48,8 @@ void callBackComplete(int action, int platformId, __Dictionary* res, __Dictionar
 		infoCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL, db);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res, NULL);
+	} else if (action == 6 && NULL != followCb) { // 6 = FOLLOW_FRIEND
+		followCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res);
 	}
 }
 
@@ -57,6 +60,8 @@ void callBackError(int action, int platformId, __Dictionary* res){
 		infoCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, res, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateFail, (C2DXPlatType) platformId, res, res);
+	} else if (action == 6 && NULL != followCb) { // 6 = FOLLOW_FRIEND
+		followCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res);
 	}
 }
 
@@ -67,6 +72,8 @@ void callBackCancel(int action, int platformId, __Dictionary* res){
 		infoCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, NULL, NULL);
 	} else if (action == 9 && NULL != shareCb) { // 9 = ACTION_SHARE
 		shareCb(C2DXResponseStateCancel, (C2DXPlatType) platformId, res, (__Dictionary*)NULL);
+	} else if (action == 6 && NULL != followCb) { // 6 = FOLLOW_FRIEND
+		followCb(C2DXResponseStateSuccess, (C2DXPlatType) platformId, res);
 	}
 }
 
@@ -169,7 +176,7 @@ bool showUser(int platformId, C2DXGetUserInfoResultEvent callback){
 	return true;
 }
 
-bool doFollowFriend(int platformId, const char* account, C2DXShareResultEvent callback){
+bool doFollowFriend(int platformId, const char* account, C2DXFollowResultEvent callback){
 	JniMethodInfo mi;
 	bool isHave = getMethod(mi, "followFriend", "(ILjava/lang/String;)V");
 	if(!isHave){
@@ -178,7 +185,7 @@ bool doFollowFriend(int platformId, const char* account, C2DXShareResultEvent ca
 	jstring jContent = mi.env->NewStringUTF(account);
 	mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platformId, jContent);
 	releaseMethod(mi);
-	shareCb = callback;
+	followCb = callback;
 
 	return true;
 }

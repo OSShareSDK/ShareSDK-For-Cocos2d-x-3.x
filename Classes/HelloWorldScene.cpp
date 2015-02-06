@@ -67,6 +67,22 @@ void shareResultHandler(C2DXResponseState state, C2DXPlatType platType, __Dictio
     }
 }
 
+void followResultHandler(C2DXResponseState state, C2DXPlatType platType,  __Dictionary *error)
+{
+	CCLog("shareResultHandler");
+    switch (state) {
+        case C2DXResponseStateSuccess:
+            C2DXShareSDK::toast("关注成功");
+            break;
+        case C2DXResponseStateFail:
+            C2DXShareSDK::toast("关注失败");
+            break;
+        default:
+            C2DXShareSDK::toast("关注取消");
+            break;
+    }
+}
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -226,7 +242,7 @@ void HelloWorld::getFriendListMenuItemClick(cocos2d::Ref* pSender)
 void HelloWorld::followFriendMenuItemClick(cocos2d::Ref* pSender)
 {
 	//account 填入昵称
-	C2DXShareSDK::followFriend(C2DXPlatTypeSinaWeibo, "淡淡想起丶", shareResultHandler);
+	C2DXShareSDK::followFriend(C2DXPlatTypeSinaWeibo, "淡淡想起丶", followResultHandler);
 }
 
 void HelloWorld::shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender)

@@ -219,7 +219,7 @@ void C2DXShareSDK::getFriendList(C2DXPlatType platType, int count, int page, con
 #endif
 }
 
-void C2DXShareSDK::followFriend(C2DXPlatType platType, const char* account, C2DXShareResultEvent callback){
+void C2DXShareSDK::followFriend(C2DXPlatType platType, const char* account, C2DXFollowResultEvent callback){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
     //TODO: Android

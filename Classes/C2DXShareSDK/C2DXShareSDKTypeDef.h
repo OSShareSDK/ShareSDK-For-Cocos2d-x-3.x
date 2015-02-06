@@ -116,6 +116,11 @@ namespace cn
          *	@brief	分享返回回调事件
          */
         typedef void(*C2DXShareResultEvent) (C2DXResponseState state, C2DXPlatType platType, __Dictionary *shareInfo, __Dictionary *error);
+
+        /**
+         *	@brief	分享返回回调事件
+         */
+        typedef void(*C2DXFollowResultEvent) (C2DXResponseState state, C2DXPlatType platType,  __Dictionary *error);
     }
 }
 

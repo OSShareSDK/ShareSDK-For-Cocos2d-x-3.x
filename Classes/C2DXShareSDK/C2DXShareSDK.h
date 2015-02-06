@@ -143,7 +143,7 @@ namespace cn
              *	@param 	platType 	平台类型
              *	@param 	account 	呢称
              */
-            static void followFriend(C2DXPlatType platType, const char *account, C2DXShareResultEvent callback);
+            static void followFriend(C2DXPlatType platType, const char *account, C2DXFollowResultEvent callback);
 
             /**
              * @brief 显示一个消息

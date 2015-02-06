@@ -56,7 +56,7 @@ bool isValid(int platformId);
 
 bool showUser(int platformId, C2DXGetUserInfoResultEvent callback);
 
-bool doFollowFriend(int platformId, const char* account, C2DXShareResultEvent callback);
+bool doFollowFriend(int platformId, const char* account, C2DXFollowResultEvent callback);
 
 bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback);
 
