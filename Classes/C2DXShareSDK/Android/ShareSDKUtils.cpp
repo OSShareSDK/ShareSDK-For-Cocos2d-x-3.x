@@ -190,6 +190,20 @@ bool doFollowFriend(int platformId, const char* account, C2DXFollowResultEvent c
 	return true;
 }
 
+__Dictionary* getAuthInfo(int platformId){
+	JniMethodInfo mi;
+	__Dictionary* dic;
+	bool isHave = getMethod(mi, "getAuthInfo", "(I)Ljava/lang/String;");
+	CCJSONConverter* json = CCJSONConverter::sharedConverter();
+	jstring userInfo = (jstring) mi.env->CallStaticObjectMethod(mi.classID, mi.methodID, platformId);
+	const char* ccResp = mi.env->GetStringUTFChars(userInfo, JNI_FALSE);
+	CCLog("userInfo = %s", ccResp);
+	dic = json->dictionaryFrom(ccResp);
+	releaseMethod(mi);
+
+	return dic;
+}
+
 bool doShare(int platformId, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback){
 	JniMethodInfo mi;
 	bool isHave = getMethod(mi, "share", "(ILjava/lang/String;Z)V");

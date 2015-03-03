@@ -83,6 +83,7 @@ void followResultHandler(C2DXResponseState state, C2DXPlatType platType,  __Dict
     }
 }
 
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -128,7 +129,7 @@ bool HelloWorld::init()
                                                                menu_selector(HelloWorld::hasAuthMenuItemClick));
     MenuItemLabel *getUserMenuItem = MenuItemLabel::create(LabelTTF::create("用户信息", "Arial", 40),
                                                                this,
-                                                               menu_selector(HelloWorld::getUserInfoMenuItemClick));
+                                                               menu_selector(HelloWorld::getAuthInfoMenuItemClick));
     MenuItemLabel *getFriendListMenuItem = MenuItemLabel::create(LabelTTF::create("好友列表", "Arial", 40),
                                                                    this,
                                                                    menu_selector(HelloWorld::getFriendListMenuItemClick));
@@ -208,17 +209,17 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 void HelloWorld::authMenuItemClick(cocos2d::Ref* pSender)
 {
-    C2DXShareSDK::authorize(C2DXPlatTypeSinaWeibo, authResultHandler);
+    C2DXShareSDK::authorize(C2DXPlatTypeQQ, authResultHandler);
 }
 
 void HelloWorld::cancelAuthMenuItemClick(cocos2d::Ref* pSender)
 {
-    C2DXShareSDK::cancelAuthorize(C2DXPlatTypeSinaWeibo);
+    C2DXShareSDK::cancelAuthorize(C2DXPlatTypeQQ);
 }
 
 void HelloWorld::hasAuthMenuItemClick(cocos2d::Ref* pSender)
 {
-    if (C2DXShareSDK::hasAutorized(C2DXPlatTypeSinaWeibo))
+    if (C2DXShareSDK::hasAutorized(C2DXPlatTypeQQ))
     {
         C2DXShareSDK::toast("用户已授权");
     }
@@ -226,6 +227,12 @@ void HelloWorld::hasAuthMenuItemClick(cocos2d::Ref* pSender)
     {
         C2DXShareSDK::toast("用户尚未授权");
     }
+}
+
+void HelloWorld::getAuthInfoMenuItemClick(cocos2d::Ref* pSender)
+{
+	//此方法可以获取用户授权后的用户信息，若未授权返回为空
+	__Dictionary* userInfo = C2DXShareSDK::getAuthInformation(C2DXPlatTypeQQ);
 }
 
 void HelloWorld::getUserInfoMenuItemClick(cocos2d::Ref* pSender)

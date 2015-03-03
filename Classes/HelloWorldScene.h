@@ -33,6 +33,8 @@ public:
     void shareMenuItemClick(cocos2d::Ref* pSender);
 
     void shareForWechatTimeLineMenuItemClick(cocos2d::Ref* pSender);
+
+    void getAuthInfoMenuItemClick(cocos2d::Ref* pSender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

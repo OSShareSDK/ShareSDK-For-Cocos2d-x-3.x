@@ -129,6 +129,21 @@ void C2DXShareSDK::getUserInfo(C2DXPlatType platType, C2DXGetUserInfoResultEvent
 #endif
 }
 
+__Dictionary* C2DXShareSDK::getAuthInformation(C2DXPlatType platType)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    //TODO: Andorid
+    //return getAuthInfo((int)platType);
+    return getAuthInfo((int)platType);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+    //TODO: iOS
+
+
+#endif
+}
+
 void C2DXShareSDK::shareContent(C2DXPlatType platType, __Dictionary *content, bool isSSO, C2DXShareResultEvent callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

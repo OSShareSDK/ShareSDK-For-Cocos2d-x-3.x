@@ -68,6 +68,8 @@ bool onekeyShare(int platformId, __Dictionary *content, const char* theme, C2DXS
 
 void toastShow(const char* msg);
 
+__Dictionary* getAuthInfo(int platformId);
+
 #ifdef __cplusplus
 }
 #endif

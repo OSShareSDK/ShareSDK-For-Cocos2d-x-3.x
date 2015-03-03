@@ -150,6 +150,8 @@ namespace cn
              * @param msg 消息内容
              */
             static void toast(const char *msg);
+
+            static __Dictionary* getAuthInformation(C2DXPlatType platType);
         };
     }
 }

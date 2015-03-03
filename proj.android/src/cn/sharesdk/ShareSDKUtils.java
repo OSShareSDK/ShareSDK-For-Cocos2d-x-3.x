@@ -229,6 +229,19 @@ public class ShareSDKUtils {
 		plat.SSOSetting(true);
 		plat.listFriend(count, page, account);
 	}
+	
+	public static String getAuthInfo(int platformId){
+		if (DEBUG) {
+			System.out.println("getAuthInfo");
+		}
+		HashMap<String, Object> userInfo = new HashMap<String, Object>();
+		String name = ShareSDK.platformIdToName(platformId);
+		Platform plat = ShareSDK.getPlatform(context, name);
+		if(plat.isValid()){
+			userInfo = getPlatformDB(plat);
+		}
+		return ((String)hashon.fromHashMap(userInfo));
+	}
 
 	public static void showUser(int platformId) {
 		if (DEBUG) {
