@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import m.framework.utils.Hashon;
-import m.framework.utils.UIHandler;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.plugin.PluginWrapper;
+
+import com.mob.tools.utils.Hashon;
+import com.mob.tools.utils.UIHandler;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
@@ -38,7 +38,6 @@ public class ShareSDKUtils {
 	}
 
 	public static void prepare() {
-		UIHandler.prepare();
 		context = Cocos2dxActivity.getContext().getApplicationContext();
 		hashon = new Hashon();
 		final Callback cb = new Callback() {
